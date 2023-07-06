@@ -1,21 +1,91 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:lol/models/character.dart';
+import 'package:lol_voices_version2/models/character.dart';
 
 class ItemSound extends StatefulWidget {
   final String text;
   final String asset;
-  ItemSound({this.asset, this.text});
+  ItemSound({required this.asset, required this.text});
 
   @override
   _ItemSoundState createState() => _ItemSoundState();
 }
 
 class _ItemSoundState extends State<ItemSound> {
-  Character character;
+  late Character character;
+
   final player = AudioPlayer();
+  @override
+  void dispose() {
+    player.stop();
+    super.dispose();
+  }
+
   bool isplaying = false;
   IconData myicon = Icons.play_arrow;
+  Widget item({
+    required String assetpath,
+  }) =>
+      Column(children: [
+        SizedBox(
+          height: 15,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: () async {
+                await player.stop();
+                await player.play(
+                  AssetSource(
+                    assetpath.replaceAll('assets/', ''),
+                  ),
+                );
+              },
+              child: CircleAvatar(
+                // backgroundColor: Color(0xff009FBD),
+                radius: 30,
+                child: Icon(Icons.play_arrow_outlined),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            InkWell(
+              onTap: () {
+                if (player.state == PlayerState.playing) {
+                  player.pause();
+                } else {
+                  player.resume();
+                }
+              },
+              child: CircleAvatar(
+                // backgroundColor: Color(0xff009FBD),
+                radius: 30,
+                child: Icon(Icons.pause),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            InkWell(
+              onTap: () {
+                player.stop();
+              },
+              child: CircleAvatar(
+                // backgroundColor: Color(0xff009FBD),
+                radius: 30,
+                child: Icon(Icons.stop),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 20,
+        ),
+      ]);
 
   @override
   Widget build(BuildContext context) {
@@ -26,53 +96,33 @@ class _ItemSoundState extends State<ItemSound> {
         ),
         Container(
           decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Color.fromRGBO(28, 30, 100, .22)
-          
-          ),
-          child: InkWell(
-            onTap: () {
-              if (player.playing) {
-                player.stop(); 
-                return;
-              }
-              player.setAsset(widget.asset);
-              player.play();
-              
-              if (isplaying) {
-                 isplaying=false;
-                 setState(() {
-                    myicon = Icons.pause_circle; 
-                 });
-              }
-              else{
-                isplaying= true;
-                setState(() {
-                  myicon=Icons.play_arrow;
-                });
-               
-              }
-
-             ;
-            },
-            
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  CircleAvatar(child: Icon(myicon)),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Text(
-                      widget.text,
-                      style: TextStyle(fontSize: 20, color: Colors.white),
-                      maxLines: 10,
+              borderRadius: BorderRadius.circular(20),
+              color: Color.fromRGBO(55, 59, 167, 0.22)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [  SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 15,
                     ),
-                  )
-                ],
-              ),
+                    Expanded(
+                      child: Text(
+                        widget.text,
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                        maxLines: 10,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                item(assetpath: widget.asset),
+              ],
             ),
           ),
         ),
@@ -82,9 +132,8 @@ class _ItemSoundState extends State<ItemSound> {
         Container(
           height: 5,
           width: double.infinity,
-          decoration:
-              BoxDecoration(color: Color.fromRGBO(28, 50, 400, .22)),
-        )
+          decoration: BoxDecoration(color: Color.fromRGBO(12, 53, 218, 0.22)),
+        ),  
       ],
     );
   }

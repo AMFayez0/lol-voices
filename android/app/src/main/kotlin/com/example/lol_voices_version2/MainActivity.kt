@@ -1,4 +1,4 @@
-package com.example.lol
+package com.example.lol_voices_version2
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,10 +1,13 @@
+// ignore_for_file: must_be_immutable, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
-import 'package:lol/models/character.dart';
-import 'package:lol/models/itemsoubd.dart';
+
+import '../models/character.dart';
+import '../models/itemsoubd.dart';
 
 class CharacterScreen extends StatefulWidget {
   Character character;
-  CharacterScreen(this.character);
+  CharacterScreen(this.character, {super.key});
   @override
   _CharacterScreenState createState() => _CharacterScreenState();
 }
@@ -27,22 +30,24 @@ class _CharacterScreenState extends State<CharacterScreen> {
                     borderRadius: BorderRadius.circular(25)
                       ,image: DecorationImage(
                         image: NetworkImage(widget.character.imageGif),
+                        fit:BoxFit.cover
                       ),
                      ),
+                     
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
               Expanded(
                 child: ListView(
+                  physics: BouncingScrollPhysics(),
                   children: widget.character.characterdata.keys
                       .map((e) => ItemSound(
                             text: e,
-                            asset: widget.character.characterdata[e],
+                            asset:widget.character.characterdata[e]!,
                           ))
                       .toList(),
-                  physics: BouncingScrollPhysics(),
                 ),
               )
             ],

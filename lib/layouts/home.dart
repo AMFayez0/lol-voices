@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lol/layouts/character_screen.dart';
-import 'package:lol/models/character.dart';
+
+import '../models/character.dart';
+import 'character_screen.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,7 +9,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Character character;
+  late Character character;
   // String url;4
   @override
   Widget build(BuildContext context) {

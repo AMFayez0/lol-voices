@@ -12,11 +12,11 @@ class ItemSound extends StatefulWidget {
   @override
   _ItemSoundState createState() => _ItemSoundState();
 }
+  final player = AudioPlayer();
 
 class _ItemSoundState extends State<ItemSound> {
   late Character character;
 
-  final player = AudioPlayer();
   @override
   void dispose() {
     player.stop();

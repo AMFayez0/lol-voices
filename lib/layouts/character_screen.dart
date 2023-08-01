@@ -40,14 +40,18 @@ class _CharacterScreenState extends State<CharacterScreen> {
                 height: 15,
               ),
               Expanded(
-                child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  children: widget.character.characterdata.keys
-                      .map((e) => ItemSound(
-                            text: e,
-                            asset:widget.character.characterdata[e]!,
-                          ))
-                      .toList(),
+                child: Form(
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      children: widget.character.characterdata.keys
+                          .map((e) => ItemSound(
+                                text: e,
+                                asset:widget.character.characterdata[e]!,
+                              ))
+                          .toList(),
+                    ),
+                  ),
                 ),
               )
             ],
